@@ -210,6 +210,17 @@ function renderDailyRewards(dailyRewards) {
         `;
         return;
     }
+    
+    // Try to get current ALGO price from the price display element
+    let algoPrice = 0;
+    const algoPriceElement = document.getElementById('wallet-detail-algo-price');
+    if (algoPriceElement) {
+        const priceText = algoPriceElement.textContent;
+        const match = priceText.match(/(\d+\.\d+)/);
+        if (match) {
+            algoPrice = parseFloat(match[1]);
+        }
+    }
 
     dailyRewards.forEach(day => {
         const row = document.createElement('tr');
@@ -220,7 +231,16 @@ function renderDailyRewards(dailyRewards) {
 
         // Amount
         const amountCell = document.createElement('td');
-        amountCell.textContent = `${day.totalAmount.toFixed(6)} ALGO`;
+        const amountAlgo = day.totalAmount.toFixed(6);
+        let amountText = `${amountAlgo} ALGO`;
+        
+        // Add USD value if price is available
+        if (algoPrice > 0) {
+            const amountUsd = (day.totalAmount * algoPrice).toFixed(2);
+            amountText += `<br><small class="text-muted">$${amountUsd} USD</small>`;
+        }
+        
+        amountCell.innerHTML = amountText;
         amountCell.className = 'text-end';
 
         // Count
@@ -323,6 +343,13 @@ async function loadWalletDetails(address) {
         document.getElementById('wallet-detail-name').textContent = data.wallet.name || `Node-${address.substring(0, 8)}`;
         document.getElementById('wallet-detail-address').textContent = address;
         
+        // Get ALGO price
+        const algoPrice = data.algoPrice || 0;
+        
+        // Update ALGO price display
+        document.getElementById('wallet-detail-algo-price').textContent = algoPrice > 0 ? 
+            `$${algoPrice.toFixed(4)} USD` : 'Price unavailable';
+        
         // Update initial amount
         if (data.balance) {
             document.getElementById('wallet-detail-initial').textContent = `${data.balance.initialAlgoAmount.toFixed(6)} ALGO`;
@@ -339,16 +366,34 @@ async function loadWalletDetails(address) {
         
         // Update balance
         if (data.balance) {
-            document.getElementById('wallet-detail-balance').textContent = `${data.balance.finalBalance.toFixed(6)} ALGO`;
+            const balanceAlgo = data.balance.finalBalance;
+            document.getElementById('wallet-detail-balance').textContent = `${balanceAlgo.toFixed(6)} ALGO`;
+            // Add USD value
+            if (algoPrice > 0) {
+                const balanceUsd = balanceAlgo * algoPrice;
+                document.getElementById('wallet-detail-balance-usd').textContent = `$${balanceUsd.toFixed(2)} USD`;
+            } else {
+                document.getElementById('wallet-detail-balance-usd').textContent = '';
+            }
         } else {
             document.getElementById('wallet-detail-balance').textContent = 'Loading...';
+            document.getElementById('wallet-detail-balance-usd').textContent = '';
         }
         
         // Update rewards
         if (data.rewards) {
-            document.getElementById('wallet-detail-rewards').textContent = `${data.rewards.totalRewards.toFixed(6)} ALGO`;
+            const rewardsAlgo = data.rewards.totalRewards;
+            document.getElementById('wallet-detail-rewards').textContent = `${rewardsAlgo.toFixed(6)} ALGO`;
+            // Add USD value
+            if (algoPrice > 0) {
+                const rewardsUsd = rewardsAlgo * algoPrice;
+                document.getElementById('wallet-detail-rewards-usd').textContent = `$${rewardsUsd.toFixed(2)} USD`;
+            } else {
+                document.getElementById('wallet-detail-rewards-usd').textContent = '';
+            }
         } else {
             document.getElementById('wallet-detail-rewards').textContent = 'Loading...';
+            document.getElementById('wallet-detail-rewards-usd').textContent = '';
         }
         
         // Update highest reward

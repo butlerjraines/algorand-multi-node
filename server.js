@@ -4,6 +4,7 @@ const algosdk = require('algosdk');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const axios = require('axios');
 
 // Configuration
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
@@ -129,12 +130,22 @@ app.get('/api/wallets/:address', async (req, res) => {
                 wallet: address 
             });
             
+            // Get current ALGO price
+            let algoPrice = 0;
+            try {
+                const response = await axios.get('https://api.coinbase.com/v2/prices/ALGO-USD/spot');
+                algoPrice = parseFloat(response.data.data.amount);
+            } catch (error) {
+                console.error('Error fetching ALGO price:', error.message);
+            }
+            
             res.json({
                 wallet,
                 balance,
                 rewards,
                 apr,
-                transactionCount: txCount
+                transactionCount: txCount,
+                algoPrice
             });
         } finally {
             await client.close();
