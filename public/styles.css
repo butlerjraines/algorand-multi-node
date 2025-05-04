@@ -1,0 +1,84 @@
+/* Custom styling for Algorand Wallet Tracker */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand i {
+    margin-right: 0.5rem;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: none;
+    margin-bottom: 1.5rem;
+}
+
+.wallet-item {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.wallet-item:hover {
+    background-color: #f8f9fa;
+}
+
+.wallet-item.active {
+    background-color: #e9f5ff;
+    border-left: 3px solid #0d6efd;
+}
+
+#no-wallet-selected {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.text-truncate {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table th {
+    font-weight: 500;
+    background-color: #f8f9fa;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.page-link {
+    color: #0d6efd;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #0a58ca;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
