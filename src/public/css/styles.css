@@ -1,0 +1,53 @@
+/* Custom CSS */
+.wallet-item {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.wallet-item:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+.wallet-item.active {
+    background-color: rgba(13, 110, 253, 0.1);
+    border-left: 4px solid #0d6efd;
+}
+
+/* Transactions table */
+.table th, .table td {
+    vertical-align: middle;
+}
+
+/* Toast customization */
+.toast {
+    width: 350px;
+}
+
+/* Badge customization */
+.badge {
+    padding: 0.5em 0.6em;
+}
+
+/* Card customization */
+.card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Pagination customization */
+.pagination {
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .card-body {
+        padding: 1rem;
+    }
+}
